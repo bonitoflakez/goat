@@ -19,11 +19,10 @@ usage: goat -url <URL> -method <METHOD>
 
 - [x] Implement GET request functionality
 - [x] Implement POST request functionality
-- [ ] Add functionality for PUT requests
-- [ ] Add functionality for DELETE requests
-- [ ] Incorporate PATCH request functionality
-- [ ] Support HEAD requests
-- [ ] Enable OPTIONS request functionality
-- [ ] Support for handling request headers (including content type, accept headers, custom headers, etc.)
+- [x] Add functionality for PUT requests
+- [x] Add functionality for DELETE requests
+- [x] Incorporate PATCH request functionality
+- [x] Support HEAD requests
+- [x] Enable OPTIONS request functionality
+- [x] Support for handling request headers (including content type, accept headers, custom headers, etc.)
 - [ ] Implement error handling and reporting
-- [ ] Provide options for handling request parameters (query parameters, request body, etc.)

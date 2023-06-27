@@ -25,7 +25,7 @@ func logRequest(req *http.Request) {
 			log.Println("[!] Error reading request body: ", err)
 		} else {
 			if len(body) == 0 {
-				fmt.Printf("[!] Request Body -> NULL")
+				fmt.Printf("\n[!] Request Body -> NULL")
 			} else {
 				fmt.Printf("\n[!] Request Body \n%s", string(body))
 			}

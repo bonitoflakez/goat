@@ -42,7 +42,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	if *method == "POST" && *requestBody != "" {
+	if *method != "" {
+		req.Method = *method
+	}
+
+	if *method == "POST" || *method == "PUT" || *method == "PATCH" {
 		req.Body = io.NopCloser(strings.NewReader(*requestBody))
 	}
 
@@ -70,9 +74,9 @@ func main() {
 }
 
 func help() {
-	fmt.Printf("usage: goat -url <URL> -method <METHOD>\n\n")
+	fmt.Printf("usage: goat -url <URL> -method <METHOD> [OPTIONS]\n\n")
 	fmt.Printf("\t-url\t\tURL of API route\n")
-	fmt.Printf("\t-method\t\tmethod of route [GET, POST]\n")
+	fmt.Printf("\t-method\t\tmethod of route [GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS]\n")
 	fmt.Printf("\t-body\t\tbody for requests\n")
 	fmt.Printf("\t-header\t\trequest headers in the format 'key1:value1,key2:value2'\n")
 	fmt.Printf("\t-help / -h\tshow help message\n")
