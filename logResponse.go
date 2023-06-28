@@ -2,18 +2,45 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"net/http"
+	"os"
 )
 
 func logResponse(resp *http.Response, dump []byte) {
-	fmt.Printf("\n\n[!] Response\n\n")
-	fmt.Printf("[+] Status Code -> %d\n", resp.StatusCode)
-
-	if len(resp.Header) == 0 {
-		fmt.Println("[+] Headers -> NULL")
-	} else {
-		logHeaders("\n[!] Response Headers\n", resp.Header)
+	switch outputFormat {
+	case "simple":
+		fmt.Printf("[+] Status Code: %d\n", resp.StatusCode)
+		fmt.Printf("[+] Content-Type: %s\n", resp.Header.Get("Content-Type"))
+		fmt.Println("[+]")
+		fmt.Println("[+] Response Body:")
+		printResponseBody(resp.Body)
+		fmt.Println()
+	case "detailed":
+		fmt.Println("[!] Response")
+		fmt.Printf("[+] Status Code: %d\n", resp.StatusCode)
+		fmt.Println("[!] Response Headers:")
+		printHeaders(resp.Header)
+		fmt.Println()
+		fmt.Println("[+] Response Body:")
+		printResponseBody(resp.Body)
+		fmt.Println()
+	case "full":
+		fmt.Println("[!] Response")
+		fmt.Printf("[+] Status Code: %d\n", resp.StatusCode)
+		fmt.Println("[!] Response Headers:")
+		printHeaders(resp.Header)
+		fmt.Println()
+		fmt.Println("[!] Full Response:")
+		fmt.Println(string(dump))
+		fmt.Println()
+	default:
+		fmt.Printf("Invalid output format: %s\n", outputFormat)
+		os.Exit(1)
 	}
+}
 
-	fmt.Printf("\n[!] Response Body \n\n%s", string(dump))
+func printResponseBody(body io.ReadCloser) {
+	io.Copy(os.Stdout, body)
+	fmt.Println()
 }

@@ -1,15 +1,28 @@
 package main
 
-import "strings"
+import (
+	"fmt"
+	"net/http"
+	"strings"
+)
 
-func parseHeaders(headerStr string) map[string][]string {
-	headers := make(map[string][]string)
-	pairs := strings.Split(headerStr, ",")
-	for _, pair := range pairs {
-		if kv := strings.Split(pair, ":"); len(kv) == 2 {
-			key := strings.TrimSpace(kv[0])
-			value := strings.TrimSpace(kv[1])
-			headers[key] = append(headers[key], value)
+func printHeaders(headers http.Header) {
+	for key, values := range headers {
+		for _, value := range values {
+			fmt.Printf("[+] %s: %s\n", key, value)
+		}
+	}
+}
+
+func parseHeaders(headerString string) http.Header {
+	headers := http.Header{}
+	headerList := strings.Split(headerString, ",")
+	for _, header := range headerList {
+		parts := strings.Split(header, ":")
+		if len(parts) == 2 {
+			key := strings.TrimSpace(parts[0])
+			value := strings.TrimSpace(parts[1])
+			headers.Add(key, value)
 		}
 	}
 	return headers

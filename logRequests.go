@@ -2,33 +2,45 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"log"
 	"net/http"
+	"net/http/httputil"
+	"os"
 )
 
 func logRequest(req *http.Request) {
-	fmt.Printf("\n[!] Request\n\n")
-	fmt.Printf("[+] URL -> %s\n", req.URL.String())
-	fmt.Printf("[+] Method -> %s\n", req.Method)
-
-	if len(req.Header) == 0 {
-		fmt.Printf("[!] Headers -> NULL")
-	} else {
-		logHeaders("\n[!] Headers\n", req.Header)
+	switch outputFormat {
+	case "simple":
+		fmt.Printf("[+] URL: %s\n", req.URL.String())
+		fmt.Printf("[+] Method: %s\n", req.Method)
+		fmt.Println("[+]")
+	case "detailed":
+		fmt.Println("[!] Request")
+		fmt.Printf("[+] URL: %s\n", req.URL.String())
+		fmt.Printf("[+] Method: %s\n", req.Method)
+		fmt.Println("[!] Headers:")
+		printHeaders(req.Header)
+		fmt.Println()
+	case "full":
+		fmt.Println("[!] Request")
+		fmt.Printf("[+] URL: %s\n", req.URL.String())
+		fmt.Printf("[+] Method: %s\n", req.Method)
+		fmt.Println("[!] Headers:")
+		printHeaders(req.Header)
+		fmt.Println()
+		fmt.Println("[!] Full Request:")
+		fmt.Println(stringRequest(req))
+		fmt.Println()
+	default:
+		fmt.Printf("Invalid output format: %s\n", outputFormat)
+		os.Exit(1)
 	}
+}
 
-	if req.Body != nil {
-		defer req.Body.Close()
-		body, err := io.ReadAll(req.Body)
-		if err != nil {
-			log.Println("[!] Error reading request body: ", err)
-		} else {
-			if len(body) == 0 {
-				fmt.Printf("\n[!] Request Body -> NULL")
-			} else {
-				fmt.Printf("\n[!] Request Body \n%s", string(body))
-			}
-		}
+func stringRequest(req *http.Request) string {
+	dump, err := httputil.DumpRequest(req, true)
+	if err != nil {
+		log.Fatal(err)
 	}
+	return string(dump)
 }

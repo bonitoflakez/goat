@@ -11,7 +11,10 @@ import (
 	"strings"
 )
 
-var showHelp bool
+var (
+	showHelp     bool
+	outputFormat string
+)
 
 func main() {
 	routeURL := flag.String("url", "", "URL of API route")
@@ -20,6 +23,7 @@ func main() {
 	requestHeaders := flag.String("header", "", "Request headers in the format 'key1:value1,key2:value2'")
 	flag.BoolVar(&showHelp, "help", false, "Show help message")
 	flag.BoolVar(&showHelp, "h", false, "Show help message")
+	flag.StringVar(&outputFormat, "output", "simple", "Output format [simple, detailed, full]")
 
 	flag.Parse()
 
@@ -29,7 +33,7 @@ func main() {
 	}
 
 	if flag.NFlag() == 0 {
-		fmt.Println("Use -help or -h to see help message")
+		fmt.Println("Use -help or -h to see the help message")
 		os.Exit(1)
 	}
 
@@ -42,11 +46,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	if *method != "" {
-		req.Method = *method
-	}
-
-	if *method == "POST" || *method == "PUT" || *method == "PATCH" {
+	if *method == "POST" && *requestBody != "" {
 		req.Body = io.NopCloser(strings.NewReader(*requestBody))
 	}
 
@@ -74,13 +74,11 @@ func main() {
 }
 
 func help() {
-	fmt.Println("Usage: goat -url <URL> -method <METHOD> [OPTIONS]")
-	fmt.Println("")
-
-	fmt.Println("Options:")
-	fmt.Println("  -url <URL>\t\tURL of the API route")
-	fmt.Println("  -method <METHOD>\tHTTP method of the request [GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS]")
-	fmt.Println("  -body <BODY>\t\tRequest body for POST, PUT, PATCH requests")
-	fmt.Println("  -header <HEADER>\tRequest headers in the format 'key1:value1,key2:value2'")
-	fmt.Println("  -help, -h\t\tShow help message")
+	fmt.Printf("usage: goat -url <URL> -method <METHOD> [OPTIONS]\n\n")
+	fmt.Printf("\t-url\t\tURL of API route\n")
+	fmt.Printf("\t-method\t\tmethod of route [GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS]\n")
+	fmt.Printf("\t-body\t\tbody for requests\n")
+	fmt.Printf("\t-header\t\trequest headers in the format 'key1:value1,key2:value2'\n")
+	fmt.Printf("\t-help / -h\tshow help message\n")
+	fmt.Printf("\t-output\t\toutput format [simple, detailed, full]\n")
 }
