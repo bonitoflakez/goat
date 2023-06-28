@@ -75,6 +75,7 @@ func main() {
 
 func help() {
 	fmt.Printf("usage: goat -url <URL> -method <METHOD> [OPTIONS]\n\n")
+	fmt.Printf("options:\n")
 	fmt.Printf("\t-url\t\tURL of API route\n")
 	fmt.Printf("\t-method\t\tmethod of route [GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS]\n")
 	fmt.Printf("\t-body\t\tbody for requests\n")

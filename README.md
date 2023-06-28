@@ -5,15 +5,15 @@ I made this utility to simplify API testing. It streamlines the process of exami
 ## Usage
 
 ```txt
->  .\goat.exe -h
-Usage: goat -url <URL> -method <METHOD> [OPTIONS]
+>  .\goat.exe -help
+usage: goat -url <URL> -method <METHOD> [OPTIONS]
 
-Options:
-  -url <URL>            URL of the API route
-  -method <METHOD>      HTTP method of the request [GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS]
-  -body <BODY>          Request body for POST, PUT, PATCH requests
-  -header <HEADER>      Request headers in the format 'key1:value1,key2:value2'
-  -help, -h             Show help message
+        -url            URL of API route
+        -method         method of route [GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS]
+        -body           body for requests
+        -header         request headers in the format 'key1:value1,key2:value2'
+        -help / -h      show help message
+        -output         output format [simple, detailed, full]
 ```
 
 ## To-Do
