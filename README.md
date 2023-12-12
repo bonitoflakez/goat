@@ -2,7 +2,7 @@
 
 I made this utility to simplify API testing. It streamlines the process of examining API requests, responses, and headers, making it easier to analyze and debug API interactions.
 
-## Usage
+### Usage
 
 ```txt
 >  .\goat.exe -help
@@ -16,14 +16,8 @@ usage: goat -url <URL> -method <METHOD> [OPTIONS]
         -output         output format [simple, detailed, full]
 ```
 
-## To-Do
+### Things GOAT does
 
-- [x] Implement GET request functionality
-- [x] Implement POST request functionality
-- [x] Add functionality for PUT requests
-- [x] Add functionality for DELETE requests
-- [x] Incorporate PATCH request functionality
-- [x] Support HEAD requests
-- [x] Enable OPTIONS request functionality
-- [x] Support for handling request headers (including content type, accept headers, custom headers, etc.)
-- [ ] Implement error handling and reporting
+- Trace GET, POST, PUT, DELETE, PATCH, OPTIONS requests
+- Supports HEAD requests
+- Can handle request headers (including content type, accept headers, custom headers, etc.)
